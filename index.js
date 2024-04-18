@@ -1,4 +1,4 @@
-let p = document.querySelector("#current-time");
+
 
 function showTemperature(response) {
     let temperatureElement = document.querySelector(".current-temperature-value");
@@ -19,6 +19,7 @@ function showTemperature(response) {
 
 function updateCurrentTime() {
     let now = new Date();
+    let p = document.querySelector("#current-time");
     let date = now.getDate();
     let hours = now.getHours();
     let minutes = now.getMinutes();
@@ -26,8 +27,7 @@ function updateCurrentTime() {
     let day = days[now.getDay()];
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     let month = months[now.getMonth()];
-    let newTime = `${day}, ${date} ${month} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-    p.innerHTML = newTime;
+    
 }
 
 function searchCity(city) {
@@ -37,6 +37,12 @@ function searchCity(city) {
     axios.get(apiUrl)
         .then(showTemperature)
         .catch(error => console.error("Error fetching weather data:", error));
+
+
+
+        let newTime = `${day}, ${date} ${month} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        p.innerHTML = newTime;
+
 }
 
 function handleSearchSubmit(event) {
@@ -49,9 +55,45 @@ function handleSearchSubmit(event) {
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
-// Initial display for default city
+
 searchCity("Paris");
 
-// Update current time every minute
+
+let forecast = document.querySelector("forecast");
+forecast.innerHTML = `
+    <div class="weather-forecast-day">
+    <div class="weather-forecast-date">Tue</div>
+    <div class="weather-forecast-icon"></div>
+    <div class="weather-forecast-temperatures">
+    <div class="weather-forecast-temperature">
+    <strong></strong>
+    </div>
+    <div class="weather-forecast-temperatures"></div>
+    </div>
+    </div>
+`;
+
+
+
+
+
+
+
+
+
+
 updateCurrentTime();
-setInterval(updateCurrentTime, 60000); // Update every 1 minute
+setInterval(updateCurrentTime, 60000); 
+
+
+const searchInput = document.getElementById("search-input");
+const city = document.getElementById("city");
+
+
+searchInput.addEventListener("input", () => {
+  
+  city.textContent = searchInput.value;
+});
+
+
+
