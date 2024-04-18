@@ -8,27 +8,42 @@ function showTemperature(response) {
     let humidity = document.querySelector("#humidity");
     let windSpeed = document.querySelector("#wind-speed");
     let icon = document.querySelector("#icon");
+    let currentTime = formatDate(new Date());
+    let p = document.querySelector("#current-time");
+
 
     h1Element.innerHTML = response.data.city;
     temperatureElement.innerHTML = temperature;
     description.innerHTML = `,${response.data.condition.description}`;
     humidity.innerHTML = ` ${response.data.temperature.humidity}%,`;
-    windSpeed.innerHTML = `${response.data.wind.speed}km.h`;
+    windSpeed.innerHTML = `${response.data.wind.speed}km/h`;
     icon.innerHTML = `<img src="${response.data.condition.icon_url}" class="current-temperature-icon"/>`;
+    p.innerHTML = currentTime;
+    getForecast(response.data.city);
 }
 
-function updateCurrentTime() {
-    let now = new Date();
-    let p = document.querySelector("#current-time");
-    let date = now.getDate();
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    let day = days[now.getDay()];
-    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    let month = months[now.getMonth()];
+function formatDate(date) {
     
-}
+    let minutes = date.getMinutes();
+    let hours = date.getHours();
+    let days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    let day = days[date.getDay()];
+  
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+  
+    return `${day} ${hours}:${minutes}`;
+  }
+  
 
 function searchCity(city) {
     let apiKey = "3d4faf1712bac890aob409810t89d488";
@@ -37,12 +52,6 @@ function searchCity(city) {
     axios.get(apiUrl)
         .then(showTemperature)
         .catch(error => console.error("Error fetching weather data:", error));
-
-
-
-        let newTime = `${day}, ${date} ${month} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-        p.innerHTML = newTime;
-
 }
 
 function handleSearchSubmit(event) {
@@ -52,48 +61,60 @@ function handleSearchSubmit(event) {
     searchCity(city);
 }
 
-let searchFormElement = document.querySelector("#search-form");
-searchFormElement.addEventListener("submit", handleSearchSubmit);
+function getForecast(city) {
+    let apiKey = "3d4faf1712bac890aob409810t89d488";
+    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
+    axios.get(apiUrl).then(displayForecast);
+}
 
+function formatDay(timestamp) {
+    let date = new Date(timestamp * 1000);
+    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  
+    return days[date.getDay()];
+  }
+
+  function displayForecast(response) {
+    let forecastHtml = "";
+  
+    response.data.daily.forEach(function (day, index) {
+      if (index < 5) {
+        forecastHtml =
+          forecastHtml +
+          `
+        <div class="weather-forecast-day">
+          <div class="weather-forecast-date">${formatDay(day.time)}</div>
+  
+          <img src="${day.condition.icon_url}" class="weather-forecast-icon" />
+          <div class="weather-forecast-temperatures">
+            <div class="weather-forecast-temperature">
+              <strong>${Math.round(day.temperature.maximum)}º</strong>
+            </div>
+            <div class="weather-forecast-temperature">${Math.round(
+              day.temperature.minimum
+            )}º</div>
+          </div>
+        </div>
+      `;
+      }
+    });
+  
+    let forecastElement = document.querySelector("#forecast");
+    forecastElement.innerHTML = forecastHtml;
+  }
+  
+  let searchFormElement = document.querySelector("#search-form");
+  searchFormElement.addEventListener("submit", handleSearchSubmit);
+
+
+  const searchInput = document.getElementById("search-input");
+  const city = document.getElementById("city");
+  
+  
+  searchInput.addEventListener("input", () => {
+    
+    city.textContent = searchInput.value;
+  });
+  
 
 searchCity("Paris");
-
-
-let forecast = document.querySelector("forecast");
-forecast.innerHTML = `
-    <div class="weather-forecast-day">
-    <div class="weather-forecast-date">Tue</div>
-    <div class="weather-forecast-icon"></div>
-    <div class="weather-forecast-temperatures">
-    <div class="weather-forecast-temperature">
-    <strong></strong>
-    </div>
-    <div class="weather-forecast-temperatures"></div>
-    </div>
-    </div>
-`;
-
-
-
-
-
-
-
-
-
-
-updateCurrentTime();
-setInterval(updateCurrentTime, 60000); 
-
-
-const searchInput = document.getElementById("search-input");
-const city = document.getElementById("city");
-
-
-searchInput.addEventListener("input", () => {
-  
-  city.textContent = searchInput.value;
-});
-
-
-

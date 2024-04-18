@@ -1,8 +1,9 @@
 body{
-    background-color: #f9f7fe;
-    background-image: url("https://wallpapers.com/images/hd/cloudy-weather-digital-illustration-hi16vkc00cp99uzv.jpg");
-    background-repeat: no-repeat;
+    background-color: hsl(257, 78%, 98%);
+    background-image: url("https://images.pexels.com/photos/314726/pexels-photo-314726.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+     background-repeat: no-repeat;
     background-size: cover;
+    background-blend-mode: darken;
 }
 
 .container {
@@ -13,7 +14,7 @@ body{
     box-shadow: 0 30px 50px rgba(65, 50, 100, 8.08);
     
     padding: 30px;
-    background-image: url("images(4).jpg") ;
+    
 }  
 
 h1 {
@@ -24,7 +25,7 @@ h1 {
 }
 
 .weather-data {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     line-height: 24px;
 }
@@ -66,7 +67,8 @@ h1 {
     
 }
 strong{
-    color: rgba(255, 0, 0, 0.973)
+    color: rgba(247, 13, 13, 0.973)
+    
 }
 .search-input {
     padding: 15px 20px;
@@ -87,8 +89,44 @@ strong{
     font-size: 16px;
     border: none;
 }
+
+.weather-forecast {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+  }
+  
+  .weather-forecast-date {
+    text-align: center;
+    color: black;
+    font-size: 30px;
+    font-weight: bolder;
+    line-height: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .weather-forecast-icon {
+    font-size: 35px;
+    text-align: center;
+  }
+  .weather-forecast-temperatures {
+    text-align: center;
+    color: black;
+    font-weight: bold;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .weather-forecast-temperature {
+    padding: 0 10px;
+  }
+  
+
 footer{
     font-weight: bolder;
+    font-size: larger;
     margin-top: 50px;
     text-align: center;
+    color: black;
 }
