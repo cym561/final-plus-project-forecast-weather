@@ -131,31 +131,3 @@ footer{
     text-align: center;
     color: black;
 }
-@media (max-width: 576px) {
-    h1{
-      font-size: 28px;
-    }
-    .container{
-        max-width: 350px;
-        max-height: auto;
-    }
-    p{
-      font-size: 16px;
-      line-height: 1.5;
-      text-align: justify;
-    }
-    .weather-forecast-temperature{
-       
-        padding: none;
-    }
-    .weather-forecast-temperatures{
-        text-align: start;
-        padding: none;
-    }
-    .weather-forecast-date{
-        font-size: 16px;
-    }
-    .weather-forecast-icon{
-        font-size: 12px;
-    }
-  }
